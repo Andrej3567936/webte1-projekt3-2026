@@ -14,6 +14,15 @@ createApp({ //do funckie create app vkladas jeden objekt, teda stuop funkciu
 
         const error = ref("");// Text chyby, prázdny reťazec znamená "žiadna chyba"
 
+        const loaded = ref(false);
+
+        function changeUser() {
+            loaded.value = false;
+            todos.value = [];
+            error.value = "";
+        }
+
+
 
         async function loadTodos() {
             if (userName.value.trim() === "") {
@@ -27,6 +36,7 @@ createApp({ //do funckie create app vkladas jeden objekt, teda stuop funkciu
             try {
                 todos.value = await getTodos(userName.value);
                 localStorage.setItem("todo_name", userName.value);  //ulozim do local storage
+                loaded.value = true;
             } catch (e) {
                 error.value = "Úlohy sa nepodarilo načítať. " + e.message;
             } finally {
@@ -45,7 +55,35 @@ createApp({ //do funckie create app vkladas jeden objekt, teda stuop funkciu
         });
 
 
+
+        // Id úlohy, na ktorej práve beží operácia
+        const busyId = ref(null);
+
+        async function toggleDone(todo, event) {
+            busyId.value = todo.id;
+            error.value = "";
+
+            try {
+                if (todo.is_finished) {
+                    await setUndone(userName.value, todo.id);
+                } else {
+                    await setDone(userName.value, todo.id);
+                }
+                // Stav meníme až po úspešnej odpovedi servera
+                todo.is_finished = !todo.is_finished;
+            } catch (e) {
+                error.value = "Stav úlohy sa nepodarilo zmeniť. " + e.message;
+                // Na serveri sa nič nezmenilo, vrátime políčko do pôvodného stavu
+                event.target.checked = todo.is_finished;
+            } finally {
+                busyId.value = null;
+            }
+        }
+
+
+
         // Všetko, čo má byť dostupné v HTML, musí byť v tomto objekte
-        return { userName, currentView, todos, loading, error, loadTodos };
+
+        return { userName, currentView, todos, loading, error, loaded, busyId, loadTodos, changeUser, toggleDone, formatDate, isOverdue };
     }
 }).mount("#app");

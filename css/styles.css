@@ -38,15 +38,45 @@ body {
     color: var(--text);
     font-family: "Outfit", system-ui, sans-serif;
     padding: 60px;
-
     display: flex;
     flex-direction: column;
 }
 
-header, footer, {
+header, footer {
     background: transparent;
 }
 
 main {
     flex: 1;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+}
+
+/* Užšia karta vycentrovaná na stred */
+.card-narrow {
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Dokončená úloha: stlmená a s prečiarknutým názvom */
+.todo-done {
+    opacity: 0.55;
+}
+
+.todo-done h2 {
+    text-decoration: line-through;
+}
+
+/* Úloha po termíne: červený pruh vľavo */
+.todo-overdue {
+    border-left: 4px solid #dc3545;
+}
+
+/* Zaškrtávacie políčko v akcentovej farbe */
+.form-check-input:checked {
+    background-color: var(--accent);
+    border-color: var(--accent);
 }

@@ -20,6 +20,18 @@ async function request(path, options) { //fetch berie 2 argumenty, adresa a nast
 }
 
 // Načíta zoznam úloh daného používateľa
-function getTodos(name) {
-    return request("/" + encodeURIComponent(name)); //ošetri identifikator pre url
+async function getTodos(name) {
+    const data = await request("/" + encodeURIComponent(name));
+    return data.todos;
+}
+
+
+// Označí úlohu ako dokončenú
+function setDone(name, id) {
+    return request("/" + encodeURIComponent(name) + "/" + id + "/done", { method: "PATCH" });
+}
+
+// Označí dokončenú úlohu znova ako nedokončenú
+function setUndone(name, id) {
+    return request("/" + encodeURIComponent(name) + "/" + id + "/undone", { method: "PATCH" });
 }

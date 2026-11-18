@@ -42,24 +42,33 @@
 
     <main class="container my-4" id="app">
                 <!-- Zadanie identifikátora, pod ktorým sa na serveri vedie zoznam úloh -->
-        <div class="card mb-4">
+        <div v-if="!loaded" class="card card-narrow mb-4">
             <div class="card-body">
                 <label for="user-name" class="form-label">Tvoj identifikátor</label>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="user-name" placeholder="napr. marienka67">
-                    <button type="button" class="btn btn-primary" @click="loadTodos" :disabled="loading" id="btn-load" >Načítať úlohy</button>
+                    <input type="text" class="form-control" id="user-name" v-model="userName" placeholder="napr. marienka67">
+                    <button type="button" class="btn btn-primary" @click="loadTodos" :disabled="loading">Načítať úlohy</button>
                 </div>
                 <div class="form-text">Pod týmto menom server vedie tvoj zoznam úloh.</div>
-            </div> 
+            </div>
         </div>
+
+        <div v-if="loaded" class="d-flex align-items-center gap-2 mb-4">
+            <span class="text-body-secondary">Zoznam používateľa</span>
+            <strong>{{ userName }}</strong>
+            <button type="button" class="btn btn-sm btn-outline-secondary" @click="changeUser">Zmeniť</button>
+        </div>
+
+
+
 
         <!-- Prepínač medzi zoznamom a kalendárom -->
         <ul class="nav nav-pills gap-1 mb-4" id="view-tabs">
             <li class="nav-item">
-                <button type="button" class="nav-link active" data-view="list">Zoznam</button>
+                <button type="button" class="nav-link active d-none" data-view="list">Zoznam</button>
             </li>
             <li class="nav-item">
-                <button type="button" class="nav-link" data-view="calendar">Kalendár</button>
+                <button type="button" class="nav-link d-none" data-view="calendar">Kalendár</button>
             </li>
         </ul>
 
@@ -73,11 +82,29 @@
 
         <div v-if="error" class="alert alert-danger">{{ error }}</div>
 
-        <ul v-if="!loading && !error">
-            <li v-for="todo in todos" :key="todo.id"> <!-- for cyklus (v je pre vue -> v-for) -->
-                {{ todo.title }} — {{ todo.date_from }}
-            </li>
-        </ul>
+        <div v-if="!loading && !error">
+            <p v-if="todos.length === 0" class="text-body-secondary">
+                Zatiaľ nemáš žiadne úlohy.
+            </p>
+
+            <div v-for="todo in todos" :key="todo.id"
+                 class="card mb-3"
+                 :class="{ 'todo-done': todo.is_finished, 'todo-overdue': isOverdue(todo) }">
+                <div class="card-body d-flex gap-3">
+                    <input class="form-check-input mt-1 flex-shrink-0" type="checkbox"
+                           :checked="todo.is_finished"
+                           :disabled="busyId === todo.id"
+                           @change="toggleDone(todo, $event)">
+                    <div>
+                        <h2 class="h5 mb-1">{{ todo.title }}</h2>
+                        <p v-if="todo.description" class="text-body-secondary mb-2">{{ todo.description }}</p>
+                        <p class="small mb-0">
+                            {{ formatDate(todo.date_from) }} – {{ formatDate(todo.date_to) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </main>
 
@@ -92,6 +119,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/app.js"></script>
 </body>
 

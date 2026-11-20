@@ -1,67 +1,99 @@
 <!--
   Stránka O projekte, adresa /#/o-projekte.
-  Nič nenačítava, je to len text - podobne ako rozcestník HomeView
-  v cvičení 10b (krok 2). Preto tu nie je ani <script setup>.
+  Zadanie chce sekciu, ktorá stručne predstaví aplikáciu, použité technológie
+  a knižnicu kalendára. Rozloženie je rovnaké ako v zadaní 2: nadpis,
+  prepínač sekcií a pod ním karty.
 -->
+
+<script setup>
+// Odkazy na sekcie nemôžu byť <a href="#zdroj"> ako v zadaní 2.
+// Router pracuje s adresami cez mriežku (/#/o-projekte), takže by si
+// takýto odkaz vysvetlil ako novú adresu a skončil by na stránke 404.
+// Preto posunieme stránku sami.
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+}
+</script>
+
 <template>
-  <h1 class="mb-4 text-center text-md-start">O projekte</h1>
+  <h1 class="h2 mb-3 text-center text-md-start">O projekte</h1>
 
-  <div class="card mb-4">
+  <nav class="mb-4">
+    <ul class="nav nav-pills flex-wrap justify-content-center justify-content-md-start gap-1">
+      <li class="nav-item">
+        <button type="button" class="nav-link" @click="scrollTo('aplikacia')">Aplikácia</button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="nav-link" @click="scrollTo('data')">Spracovanie dát</button>
+      </li>
+      <li class="nav-item">
+        <button type="button" class="nav-link" @click="scrollTo('kniznice')">Použité knižnice</button>
+      </li>
+    </ul>
+  </nav>
+
+  <section id="aplikacia" class="card mb-4">
     <div class="card-body">
-      <h2 class="h5">Čo aplikácia robí</h2>
+      <h2 class="h4">Aplikácia</h2>
       <p class="mb-0">
-        <strong>Môj TODO List</strong> slúži na správu osobných úloh. Umožňuje úlohy vytvárať,
-        upravovať, označovať ako dokončené a odstraňovať. Okrem klasického zoznamu ponúka aj
-        kalendár, v ktorom vidno úlohy rozložené v čase.
+        Môj TODO List slúži na správu osobných úloh. Úlohy sa dajú vytvárať, upravovať,
+        označovať ako dokončené a mazať. Okrem zoznamu, ktorý sa dá filtrovať podľa stavu,
+        prehľadávať podľa názvu a zoraďovať podľa dátumu, je tu aj kalendár s mesačným,
+        týždenným a denným zobrazením.
       </p>
     </div>
-  </div>
+  </section>
 
-  <div class="card mb-4">
+  <section id="data" class="card mb-4">
     <div class="card-body">
-      <h2 class="h5">Ako funguje</h2>
+      <h2 class="h4">Spracovanie dát</h2>
       <p>
-        Všetky údaje sa uchovávajú na serveri a aplikácia s nimi pracuje cez REST API na adrese
-        <a href="https://wt1zadanie.iolab.sk">wt1zadanie.iolab.sk</a>. Každý používateľ má vlastný
-        zoznam, ktorý sa určí identifikátorom zadaným pri otvorení aplikácie.
+        Všetky úlohy sú na serveri a aplikácia s nimi pracuje cez REST API na adrese
+        <a href="https://wt1zadanie.iolab.sk" target="_blank" rel="noopener">wt1zadanie.iolab.sk</a>.
+        Volania servera sú oddelené od rozhrania v module <code>services/todoApi.js</code>.
+        Každý používateľ má vlastný zoznam, ktorý sa určí identifikátorom zadaným pri otvorení.
+        Do <code>localStorage</code> sa ukladá iba ten identifikátor, úlohy nikdy.
       </p>
       <p class="mb-0">
-        Zoznam aj kalendár čerpajú z tých istých údajov, takže zmena vykonaná v jednej časti sa
-        okamžite prejaví aj v druhej.
+        Načítané úlohy drží spoločný stav (Pinia), takže zoznam aj kalendár čerpajú z tých
+        istých dát a zmena v jednom sa hneď prejaví v druhom. Dátumy chodia zo servera
+        v ISO 8601 a zobrazujú sa v lokálnom čase používateľa.
       </p>
     </div>
-  </div>
+  </section>
 
-  <div class="card mb-4">
+  <section id="kniznice" class="card mb-4">
     <div class="card-body">
-      <h2 class="h5">Použité technológie</h2>
+      <h2 class="h4">Použité knižnice</h2>
       <ul class="mb-0">
-        <li><a href="https://vuejs.org/">Vue 3</a> – JavaScriptový framework na tvorbu
-          používateľského rozhrania, projekt je zložený z komponentov (.vue)</li>
-        <li><a href="https://vite.dev/">Vite</a> – nástroj, ktorý komponenty spojí do
-          jedného súboru pre prehliadač</li>
-        <li><a href="https://router.vuejs.org/">Vue Router</a> – prepínanie stránok
-          (zoznam, kalendár, o projekte) bez načítania celej stránky</li>
-        <li><a href="https://pinia.vuejs.org/">Pinia</a> – spoločný stav aplikácie,
-          takže zoznam aj kalendár pracujú s tými istými úlohami</li>
-        <li><a href="https://getbootstrap.com/">Bootstrap 5.3.3</a> – CSS framework,
-          mriežka, formuláre a modálne okná</li>
-        <li><a href="https://fullcalendar.io/">FullCalendar 6.1.15</a> – knižnica kalendára
-          (mesačné, týždenné a denné zobrazenie)</li>
-        <li>Fetch API – komunikácia so serverom</li>
-        <li>Font <a href="https://fonts.google.com/specimen/Outfit">Outfit</a>
-          (SIL Open Font License), uložený lokálne</li>
+        <li>
+          <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>
+          a <a href="https://vite.dev/" target="_blank" rel="noopener">Vite</a>:
+          komponenty a zostavenie projektu
+        </li>
+        <li>
+          <a href="https://router.vuejs.org/" target="_blank" rel="noopener">Vue Router 4</a>:
+          prepínanie stránok bez načítania celej stránky
+        </li>
+        <li>
+          <a href="https://pinia.vuejs.org/" target="_blank" rel="noopener">Pinia</a>:
+          spoločný stav úloh
+        </li>
+        <li>
+          <a href="https://getbootstrap.com/" target="_blank" rel="noopener">Bootstrap 5.3.3</a>
+          (CSS): rozloženie, karty, formuláre, modálne okná
+        </li>
+        <li>
+          <a href="https://fullcalendar.io/" target="_blank" rel="noopener">FullCalendar 6.1.15</a>:
+          knižnica kalendára, mesačné, týždenné a denné zobrazenie
+        </li>
+        <li>
+          Font <a href="https://fonts.google.com/specimen/Outfit" target="_blank" rel="noopener">Outfit</a>
+          (lokálne, licencia v README)
+        </li>
       </ul>
     </div>
-  </div>
+  </section>
 
-  <div class="card">
-    <div class="card-body">
-      <h2 class="h5">Autor</h2>
-      <p class="mb-0">
-        Andrej Hudačko, FEI STU<br>
-        Predmet Webové technológie 1, zadanie č. 3, ZS 2026/2027
-      </p>
-    </div>
-  </div>
+
 </template>

@@ -24,15 +24,25 @@ const calendarEl = ref(null);
 // Inštancia kalendára. Nie je to ref, šablóna ju nepotrebuje.
 let calendar = null;
 
-// Farby úloh v kalendári (paleta Sunset), striedajú sa podľa id
-const EVENT_COLORS = ["#EA6113", "#F88F22", "#FBB931", "#FFE3B3"];
+// Farby úloh v kalendári (paleta Sunset), striedajú sa podľa id.
+// Ku každej je aj pozadie: tá istá farba, len priesvitná.
+// Posledné číslo v rgba() je priehľadnosť, 0.18 = 18 %.
+const EVENT_COLORS = [
+  { border: "#EA6113", background: "rgba(234, 97, 19, 0.18)" },
+  { border: "#F88F22", background: "rgba(248, 143, 34, 0.18)" },
+  { border: "#FBB931", background: "rgba(251, 185, 49, 0.18)" },
+  { border: "#FFE3B3", background: "rgba(255, 227, 179, 0.18)" },
+];
+
+// Dokončená úloha je sivá
+const DONE_COLOR = { border: "#5A5A5A", background: "rgba(90, 90, 90, 0.18)" };
 
 // Prevedie úlohy na udalosti, ktorým kalendár rozumie
 function calendarEvents() {
   return store.todos.map((todo) => {
     // Zvyšok po delení zaručí, že tá istá úloha má vždy tú istú farbu
     const color = todo.is_finished
-      ? "#5A5A5A"
+      ? DONE_COLOR
       : EVENT_COLORS[todo.id % EVENT_COLORS.length];
 
     return {
@@ -40,8 +50,9 @@ function calendarEvents() {
       title: todo.title,
       start: todo.date_from,
       end: todo.date_to,
-      backgroundColor: color,
-      borderColor: color,
+      // Výrazný rámček v plnej farbe, pozadie len jej jemný odtieň
+      backgroundColor: color.background,
+      borderColor: color.border,
       classNames: todo.is_finished ? ["fc-event-done"] : [],
     };
   });
@@ -69,6 +80,9 @@ function renderCalendar() {
       right: "dayGridMonth,timeGridWeek,timeGridDay",
     },
     buttonText: { today: "Dnes", month: "Mesiac", week: "Týždeň", day: "Deň" },
+    // Bez tohto by kalendár pri nulových minútach písal len "0" namiesto "00:00".
+    // Rovnaký tvar ako v zozname, kde čas formátuje toLocaleString.
+    eventTimeFormat: { hour: "2-digit", minute: "2-digit", hour12: false },
     events: calendarEvents(),
     // Všetky úlohy ako farebné bloky, nie ako bodka s textom
     eventDisplay: "block",

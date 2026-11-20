@@ -360,21 +360,23 @@ footer {
     font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
+    /* Hrubší rámček, lebo farbu úlohy nesie práve on */
+    border-width: 2px;
 }
 
-/* Tmavý text na svetlom podklade úlohy.
-   Musí tu byť, inak ho prebije pravidlo pre odkazy na začiatku súboru. */
+/* Pozadie je len jemný odtieň, takže text musí byť svetlý.
+   Musí to byť tu, inak to prebije pravidlo pre odkazy na začiatku súboru. */
 #calendar .fc-event,
 #calendar .fc-event .fc-event-title,
 #calendar .fc-event .fc-event-time {
-    color: #1C1B1B;
+    color: var(--text);
 }
 
-/* Dokončená úloha: sivý podklad, svetlý prečiarknutý text */
+/* Dokončená úloha: stlmený prečiarknutý text */
 #calendar .fc-event-done,
 #calendar .fc-event-done .fc-event-title,
 #calendar .fc-event-done .fc-event-time {
-    color: #D0D0D0;
+    color: var(--text-muted);
 }
 
 #calendar .fc-event-done .fc-event-title {

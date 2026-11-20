@@ -5,26 +5,35 @@
 **Link:** https://webte1.fei.stuba.sk/~xhudacko/
 
 **O projekte:**
-Môj TODO List je webová aplikácia na správu osobných úloh. Úlohy sa dajú vytvárať, upravovať, označovať ako dokončené a mazať. Okrem zoznamu je tu aj kalendár s mesačným, týždenným a denným zobrazením. Zoznam aj kalendár čerpajú z tých istých dát, takže zmena v jednom sa hneď prejaví v druhom. Zoznam sa dá filtrovať podľa stavu, hľadať v ňom podľa názvu a zoraďovať podľa začiatku alebo konca.
+Môj TODO List je webová aplikácia na správu osobných úloh. Úlohy sa dajú vytvárať, upravovať, označovať ako dokončené a mazať. Okrem zoznamu je tu aj kalendár s mesačným, týždenným a denným zobrazením, oba čerpajú z tých istých dát. Zoznam sa dá filtrovať podľa stavu, hľadať v ňom podľa názvu a zoraďovať podľa dátumu.
 
-Všetko sa ukladá na server cez REST API, nič do localStorage (okrem zapamätania identifikátora). Pri otvorení treba zadať identifikátor, pod ktorým server vedie zoznam.
+Všetko sa ukladá na server cez REST API. Do localStorage ide iba identifikátor, pod ktorým server vedie zoznam, úlohy nikdy.
 
 **Zdroj dát:** https://wt1zadanie.iolab.sk (dokumentácia na `/docs`)
 
-**Knižnice:**
+**Technológie:**
 
-- Vue 3.4.21 (CDN)
-- Bootstrap 5.3.3 (CSS aj JS)
-- FullCalendar 6.1.15 (CDN)
+- Vue 3 + Vite (komponenty `.vue`, build)
+- Vue Router 4 (stránky), Pinia (spoločný stav)
+- Bootstrap 5.3.3 (CSS)
+- FullCalendar 6.1.15 (kalendár)
+- Fetch API (komunikácia so serverom)
 
-**Font:** Outfit (lokálne, formát woff2, súbor `fonts/Outfit-VariableFont_wght.woff2`)
+**Štruktúra:** `src/views` stránky, `src/components` opakovane použité časti, `src/stores` stav, `src/services` volania API, `src/utils` pomocné funkcie.
+
+**Font:** Outfit (lokálne, formát woff2, súbor `src/assets/fonts/Outfit-VariableFont_wght.woff2`)
 
 - Zdroj: https://fonts.google.com/specimen/Outfit
 - Licencia: SIL Open Font License, Version 1.1 (https://openfontlicense.org)
 
 **Inštalácia a spustenie:**
-Žiadna inštalácia netreba, projekt nepoužíva npm ani build. Knižnice idú z CDN, font je v projekte. Stačí spustiť cez HTTP server, napríklad rozšírením Live Server vo VS Code (pravý klik na `index.html` → Open with Live Server) alebo príkazom:
 
+```
+npm install
+npm run dev
+```
+
+Otvoriť adresu z terminálu (http://localhost:5173). Verzia na server sa vyrobí cez `npm run build`, nahráva sa obsah priečinka `dist/`.
 
 **Použitie AI**
-AI som použil najmä pri učení sa Vue, keďže to bola pre mňa úplne nová vec. Slúžilo mi ako mentor, vysvetľovalo mi reaktivitu, `ref`, `computed`, props a emit a hlavne rozdiel oproti práci s DOM, ktorú som robil v minulých zadaniach. Kód som písal postupne a pri každej časti som sa pýtal, čo robí a prečo, nie štýlom copy-paste. Pomohlo mi aj pri hľadaní chýb (napríklad server vracia úlohy zabalené v objekte, nie ako pole), pri nastavení FullCalendar a pri dolaďovaní CSS. Používal som Claude.
+Ai som použil najmä pri učení sa Vue, kedže to bola pre mňa úplne nová vec. Slúžil mi ako mentor a vysvetľoval mi reaktivitu, ref, computed, props a emit a hlavne rozdiel oproti práci s DOM, ktorú som robil v minulých zadaniach. Vysvetlil mi aj rozdelenie projektu na komponenty, router a store podľa cvičení. Pomohol mi aj pri hľadaní chýb a pri dolaďovaní CSS. Veľkú časť kódu som preberal od neho a potom si ju prechádzal a nechal vysvetliť. Používal som najmä Claude.

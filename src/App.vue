@@ -62,13 +62,14 @@ async function confirmReset() {
   <header>
     <nav class="navbar navbar-expand-md py-3">
       <div class="container">
-        <RouterLink class="navbar-brand" to="/">Môj TODO List</RouterLink>
+        <RouterLink class="navbar-brand" to="/">TODO List</RouterLink>
+        <!--router link namiesto href, href by stihaol stranku zo servera a zahodil celu appku, routerlink len vymeni komponent, appka bezi dalej-->
 
         <button class="navbar-toggler" type="button" @click="menuOpen = !menuOpen">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" :class="{ show: menuOpen }">
+        <div class="collapse navbar-collapse" :class="{ show: menuOpen }"> <!--{nazov triedy: podmienka}-->
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <!-- Odkaz Úlohy zvýrazníme na zozname aj na kalendári -->
@@ -95,7 +96,9 @@ async function confirmReset() {
     </div>
 
     <template v-if="isTodoPage">
-      <h1 class="h3 mb-4 text-center text-md-start">Moje úlohy</h1>
+      <!-- Nadpis má zmysel až vtedy, keď je čo zobraziť.
+           Pri zadávaní identifikátora by len prekážal. -->
+      <h1 v-if="store.loaded" class="h3 mb-4 text-center text-md-start">Moje úlohy</h1>
 
       <!-- Zelená hláška po úspešnej operácii, sama zmizne po 3 sekundách -->
       <div v-if="store.message" class="alert alert-success">{{ store.message }}</div>
@@ -117,7 +120,6 @@ async function confirmReset() {
               Načítať úlohy
             </button>
           </form>
-          <div class="form-text">Pod týmto menom server vedie tvoj zoznam úloh.</div>
         </div>
       </div>
 

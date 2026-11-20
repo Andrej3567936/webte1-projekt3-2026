@@ -26,14 +26,6 @@ Všetko sa ukladá na server cez REST API. Do localStorage ide iba identifikáto
 - Zdroj: https://fonts.google.com/specimen/Outfit
 - Licencia: SIL Open Font License, Version 1.1 (https://openfontlicense.org)
 
-**Inštalácia a spustenie:**
-
-```
-npm install
-npm run dev
-```
-
-Otvoriť adresu z terminálu (http://localhost:5173). Verzia na server sa vyrobí cez `npm run build`, nahráva sa obsah priečinka `dist/`.
 
 **Použitie AI**
-Ai som použil najmä pri učení sa Vue, kedže to bola pre mňa úplne nová vec. Slúžil mi ako mentor a vysvetľoval mi reaktivitu, ref, computed, props a emit a hlavne rozdiel oproti práci s DOM, ktorú som robil v minulých zadaniach. Vysvetlil mi aj rozdelenie projektu na komponenty, router a store podľa cvičení. Pomohol mi aj pri hľadaní chýb a pri dolaďovaní CSS. Veľkú časť kódu som preberal od neho a potom si ju prechádzal a nechal vysvetliť. Používal som najmä Claude.
+AI som použil najmä pri učení sa Vue. Vysvetľoval mi reaktivitu, ref, computed, props a emit a hlavne rozdiel oproti práci s DOM, ktorú som robil v minulých zadaniach. Pomohol mi aj pri hľadaní chýb (napríklad server vracia úlohy zabalené v objekte, nie ako pole) a pri dolaďovaní CSS. Používal som najmä Claude.

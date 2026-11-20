@@ -24,7 +24,7 @@
 
   1. TodoItem.vue    nič nemaže, iba zakričí hore: emit("delete", todo)   (cv. 9, krok 5)
   2. ListView.vue    to zachytí a zavolá store.askDelete(todo)
-  3. store           si do deleteTodo odloží, ktorú úlohu ideme mazať
+  3. store           si do todoToDelete odloží, ktorú úlohu ideme mazať
   4. App.vue         vidí, že deleteTodo nie je null, a zobrazí ConfirmDialog
   5. ConfirmDialog   po kliknutí na Zmazať zakričí emit("confirm")
   6. App.vue         zavolá store.remove(todo)
@@ -39,4 +39,4 @@ import App from "./App.vue";
 import router from "./router/index.js";
 import "./assets/styles.css";
 
-createApp(App).use(createPinia()).use(router).mount("#app");
+createApp(App).use(createPinia()).use(router).mount("#app"); //zretazenie(vyrobi appku, zapne piniu, zapne router, vlozi vsetko do stranky)

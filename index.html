@@ -6,121 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Môj TODO List</title>
     <meta name="description" content="Správa osobných úloh s kalendárom.">
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
+    <!-- Bootstrap (štýly) a FullCalendar (kalendár) berieme z CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.21/vue.global.prod.min.js"></script> <!--nacitanie vue-->
-    <link rel="stylesheet" href="css/styles.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.15/locales-all.global.min.js"></script>
 </head>
 
-
-
 <body>
-    <header>
-        <nav class="navbar navbar-expand-md py-3">
-            <div class="container">
-                <a class="navbar-brand" href="index.html">Môj TODO List</a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="main-nav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="index.html">Úlohy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="docs/about_project.html">O projekte</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main class="container my-4" id="app">
-                <!-- Zadanie identifikátora, pod ktorým sa na serveri vedie zoznam úloh -->
-        <div v-if="!loaded" class="card card-narrow mb-4">
-            <div class="card-body">
-                <label for="user-name" class="form-label">Tvoj identifikátor</label>
-                <div class="input-group">
-                    <input type="text" class="form-control" id="user-name" v-model="userName" placeholder="napr. marienka67">
-                    <button type="button" class="btn btn-primary" @click="loadTodos" :disabled="loading">Načítať úlohy</button>
-                </div>
-                <div class="form-text">Pod týmto menom server vedie tvoj zoznam úloh.</div>
-            </div>
-        </div>
-
-        <div v-if="loaded" class="d-flex align-items-center gap-2 mb-4">
-            <span class="text-body-secondary">Zoznam používateľa</span>
-            <strong>{{ userName }}</strong>
-            <button type="button" class="btn btn-sm btn-outline-secondary" @click="changeUser">Zmeniť</button>
-        </div>
-
-
-
-
-        <!-- Prepínač medzi zoznamom a kalendárom -->
-        <ul class="nav nav-pills gap-1 mb-4" id="view-tabs">
-            <li class="nav-item">
-                <button type="button" class="nav-link active d-none" data-view="list">Zoznam</button>
-            </li>
-            <li class="nav-item">
-                <button type="button" class="nav-link d-none" data-view="calendar">Kalendár</button>
-            </li>
-        </ul>
-
-        <!-- obsah podľa vybraného zobrazenia
-        mas 3 ify, loading, error a uspech -->
-        
-        <div v-if="loading" class="text-center my-5">
-            <div class="spinner-border"></div>
-            <p class="mt-2">Načítavam úlohy…</p>
-        </div>
-
-        <div v-if="error" class="alert alert-danger">{{ error }}</div>
-
-        <div v-if="!loading && !error">
-            <p v-if="todos.length === 0" class="text-body-secondary">
-                Zatiaľ nemáš žiadne úlohy.
-            </p>
-
-            <div v-for="todo in todos" :key="todo.id"
-                 class="card mb-3"
-                 :class="{ 'todo-done': todo.is_finished, 'todo-overdue': isOverdue(todo) }">
-                <div class="card-body d-flex gap-3">
-                    <input class="form-check-input mt-1 flex-shrink-0" type="checkbox"
-                           :checked="todo.is_finished"
-                           :disabled="busyId === todo.id"
-                           @change="toggleDone(todo, $event)">
-                    <div>
-                        <h2 class="h5 mb-1">{{ todo.title }}</h2>
-                        <p v-if="todo.description" class="text-body-secondary mb-2">{{ todo.description }}</p>
-                        <p class="small mb-0">
-                            {{ formatDate(todo.date_from) }} – {{ formatDate(todo.date_to) }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <footer class="py-3 mt-5">
-        <div class="container text-center small">
-            <p class="mb-1">&copy; 2026 Andrej Hudačko</p>
-            <p class="mb-0">
-                Použité knižnice: Bootstrap 5.3.3, Vue 3, FullCalendar | Font: Outfit
-            </p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Sem Vue vloží celú aplikáciu, pozri src/main.js -->
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

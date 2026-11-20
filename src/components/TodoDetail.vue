@@ -1,7 +1,3 @@
-<!--
-  Detail úlohy, otvorí sa po kliknutí na úlohu v kalendári.
-  Rovnaký princíp ako TodoItem: props dnu, emit von (cv. 9, krok 4 a 5).
--->
 <script setup>
 import { formatDate } from "../utils/dates.js";
 

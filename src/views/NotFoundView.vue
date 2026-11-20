@@ -1,11 +1,5 @@
-<!--
-  Stránka pre adresu, ktorá neexistuje.
-  Prevzaté z cvičenia 10b, krok 5 (bonus). Cesta /:pathMatch(.*)* v routeri
-  chytí všetko, čo nesedí so žiadnou inou cestou.
--->
 <script setup>
-// Stránka pre adresu, ktorá neexistuje. Router ju použije pri ceste,
-// ktorá nesedí so žiadnou inou (pozri router/index.js).
+
 import { RouterLink } from "vue-router";
 </script>
 

@@ -1,18 +1,3 @@
-<!--
-  App.vue - "rám" celej aplikácie (cvičenie 10b, krok 1).
-  Je tu všetko, čo je vidieť na každej stránke: hlavička s navigáciou,
-  pätička a <RouterView />, kam router vloží aktuálnu stránku.
-
-  Navyše sú tu modálne okná (formulár, detail úlohy, potvrdenia).
-  Sú tu preto, lebo ich treba otvárať zo zoznamu aj z kalendára.
-  Ktoré okno je otvorené, si pamätá store, takže sa k nemu dostane
-  ktorákoľvek stránka - to je presne dôvod, prečo store existuje
-  (cv. 10b, krok 3).
-
-  Navigácia používa <RouterLink>, nie <a href>. Cvičenie 10b (krok 1)
-  ukazuje prečo: obyčajný odkaz zahodí celú aplikáciu a stiahne stránku
-  zo servera nanovo, RouterLink iba vymení komponent v RouterView.
--->
 <script setup>
 import { ref, computed } from "vue";
 import { useRoute, RouterLink, RouterView } from "vue-router";
@@ -24,15 +9,11 @@ import ConfirmDialog from "./components/ConfirmDialog.vue";
 const store = useTodosStore();
 const route = useRoute();
 
-// Rozbalené hamburgerové menu na malých displejoch.
-// Predtým to robil Bootstrap cez data-bs-toggle, teraz to riadi Vue.
+// Hamburger menu. V Z2 to robil Bootstrap cez data-bs-toggle.
 const menuOpen = ref(false);
 
-// Stránky so zoznamom a kalendárom majú spoločnú hlavičku (identifikátor,
-// tlačidlá, prepínač). Stránka O projekte a chybová 404 ju nepotrebujú.
 const isTodoPage = computed(() => route.name === "list" || route.name === "calendar");
 
-// Ak je meno uložené z minula, rovno načítame úlohy
 if (store.userName !== "") {
   store.load();
 }
@@ -42,7 +23,6 @@ async function saveTodo(values) {
     await store.save(values, values.id);
     store.formTodo = null;
   } catch (e) {
-    // Okno necháme otvorené, aby sa nestratilo, čo používateľ napísal
     store.formError = e.message;
   }
 }
@@ -63,16 +43,15 @@ async function confirmReset() {
     <nav class="navbar navbar-expand-md py-3">
       <div class="container">
         <RouterLink class="navbar-brand" to="/">TODO List</RouterLink>
-        <!--router link namiesto href, href by stihaol stranku zo servera a zahodil celu appku, routerlink len vymeni komponent, appka bezi dalej-->
 
         <button class="navbar-toggler" type="button" @click="menuOpen = !menuOpen">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" :class="{ show: menuOpen }"> <!--{nazov triedy: podmienka}-->
+        <div class="collapse navbar-collapse" :class="{ show: menuOpen }">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <!-- Odkaz Úlohy zvýrazníme na zozname aj na kalendári -->
+
               <RouterLink class="nav-link" :class="{ active: isTodoPage }" to="/" @click="menuOpen = false">
                 Úlohy
               </RouterLink>
@@ -89,25 +68,22 @@ async function confirmReset() {
   </header>
 
   <main class="container my-4">
-    <!-- Dve oranžové škvrny v pozadí. Na kalendári si vymenia rohy. -->
+
     <div class="glows" :class="{ 'glows-calendar': route.name === 'calendar' }">
       <span class="glow glow-a"></span>
       <span class="glow glow-b"></span>
     </div>
 
     <template v-if="isTodoPage">
-      <!-- Nadpis má zmysel až vtedy, keď je čo zobraziť.
-           Pri zadávaní identifikátora by len prekážal. -->
+
       <h1 v-if="store.loaded" class="h3 mb-4 text-center text-md-start">Moje úlohy</h1>
 
-      <!-- Zelená hláška po úspešnej operácii, sama zmizne po 3 sekundách -->
       <div v-if="store.message" class="alert alert-success">{{ store.message }}</div>
 
-      <!-- Zadanie identifikátora, pod ktorým sa na serveri vedie zoznam úloh -->
       <div v-if="!store.loaded" class="card card-narrow mx-auto mb-4">
         <div class="card-body">
           <label for="user-name" class="form-label">Tvoj identifikátor</label>
-          <!-- .prevent zabráni obnoveniu stránky po stlačení Enter -->
+
           <form class="input-group" @submit.prevent="store.load()">
             <input
               id="user-name"
@@ -143,11 +119,9 @@ async function confirmReset() {
           </div>
         </div>
 
-        <!-- Prepínač zobrazení. RouterLink mení adresu bez načítania stránky
-             a sám si pridá triedu active podľa toho, kde sa nachádzame. -->
         <ul class="nav nav-pills justify-content-center gap-1 mb-4">
           <li class="nav-item">
-            <!-- exact-active-class: triedu active pridá router sám, keď sme na tejto adrese -->
+
             <RouterLink class="nav-link" exact-active-class="active" to="/">Zoznam</RouterLink>
           </li>
           <li class="nav-item">
@@ -164,7 +138,7 @@ async function confirmReset() {
       <div v-if="store.error" class="alert alert-danger">{{ store.error }}</div>
     </template>
 
-    <!-- Sem router vloží stránku podľa adresy -->
+    <!-- Sem router vlozi stranku podla adresy -->
     <RouterView v-if="!store.loading" />
   </main>
 
@@ -182,7 +156,7 @@ async function confirmReset() {
     </div>
   </footer>
 
-  <!-- Okná sú tu, aby boli dostupné zo zoznamu aj z kalendára -->
+  <!-- Okna su tu, aby sa dali otvorit zo zoznamu aj z kalendara -->
   <TodoForm
     v-if="store.formTodo"
     :initial="store.formTodo"

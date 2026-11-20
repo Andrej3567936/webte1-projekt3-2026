@@ -1,39 +1,33 @@
 :root {
-    /* Základné farby z palety */
-    --bg: #000000;              /* pozadie stránky */
-    --surface: #1c1b1b;         /* karty a panely */
-    --surface-2: #262525;       /* polia formulárov, zvýraznené plochy */
-    --border: #343434;          /* orámovanie */
-    --text: #F9F9F9;            /* hlavný text */
-    --text-muted: #A7A7A7;      /* vedľajší text */
+    --bg: #000000;
+    --surface: #1c1b1b;
+    --surface-2: #262525;
+    --border: #343434;
+    --text: #F9F9F9;
+    --text-muted: #A7A7A7;
 
-    /* Akcentová oranžová a jej odtiene */
     --accent: #E85002;
     --accent-hover: #F16001;
-    --accent-soft: rgba(232, 80, 2, 0.12);   /* jemné pozadie pri hover */
-    --accent-active: rgba(232, 80, 2, 0.22); /* pozadie aktívnej položky */
-    --on-accent: #F9F9F9;       /* text na oranžovom pozadí */
-    --accent-glow: rgba(232, 80, 2, 0.45);   /* škvrny v pozadí */
-    --overdue: red;             /* pruh pri úlohe po termíne */
+    --accent-soft: rgba(232, 80, 2, 0.12);
+    --accent-active: rgba(232, 80, 2, 0.22);
+    --on-accent: #F9F9F9;
+    --accent-glow: rgba(232, 80, 2, 0.45);
+    --overdue: red;
 
-    /* Priesvitné odtiene, ktoré nevychádzajú z palety */
-    --text-dim: rgba(249, 249, 249, 0.75);   /* neaktívny odkaz v hlavičke */
-    --overlay: rgba(0, 0, 0, 0.4);           /* tmavý podklad tlačidla */
+    --text-dim: rgba(249, 249, 249, 0.75);
+    --overlay: rgba(0, 0, 0, 0.4);
     --border-light: rgba(255, 255, 255, 0.18);
 
-    /* Zelená pre hlášku o úspechu */
     --success-text: #9BE7B4;
     --success-bg: rgba(40, 167, 69, 0.12);
     --success-border: rgba(40, 167, 69, 0.4);
 
-    /* Prepísanie Bootstrap premenných, aby platili aj v jeho komponentoch */
     --bs-secondary-color: var(--text-muted);
     --bs-border-color: var(--border);
     --bs-body-color: var(--text);
     --bs-emphasis-color: var(--text);
 }
 
-/* Outfit ako variable font: jeden súbor pokrýva všetky hrúbky 100-900 */
 @font-face {
     font-family: "Outfit";
     src: url("./fonts/Outfit-VariableFont_wght.woff2") format("woff2");
@@ -49,23 +43,16 @@ body {
     font-family: "Outfit", system-ui, sans-serif;
 }
 
-/* Vue vkladá celú aplikáciu sem, takže hlavička, obsah a pätička sú
-   deťmi tohto prvku a nie priamo <body>. Preto je stĺpcový flexbox tu. */
 #app {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* Obsah vyplní zvyšok okna, takže pätička je vždy dole */
 main {
     flex: 1;
 }
 
-
-/* ---------- Oranžové žiarenie v pozadí ---------- */
-
-/* Vrstva so žiarením, leží za obsahom a nereaguje na myš */
 .glows {
     position: fixed;
     inset: 0;
@@ -79,22 +66,18 @@ main {
     width: 120vw;
     height: 110vh;
     background: radial-gradient(closest-side, var(--accent-glow), transparent);
-    /* Pri zmene polohy sa prvok plynule presunie, netreba písať animáciu */
+
     transition: top 0.2s ease, left 0.3s ease;
 }
 
-/* Polovica rozmeru, aby stred škvrny sadol presne do rohu okna */
-
-/* Zoznam: vpravo hore a vľavo dole */
 .glow-a { top: -55vh; left: 40vw; }
 .glow-b { top: 45vh; left: -60vw; }
 
-/* Kalendár: škvrny si vymenia rohy */
 .glows-calendar .glow-a { top: -55vh; left: -60vw; }
 .glows-calendar .glow-b { top: 45vh; left: 40vw; }
 
 h1, h2, h3, .navbar-brand {
-    letter-spacing: -0.02em;    /* písmená bližšie k sebe, pôsobí to kompaktnejšie */
+    letter-spacing: -0.02em;
     font-weight: 600;
 }
 
@@ -107,9 +90,6 @@ a:hover {
     color: var(--accent-hover);
     text-decoration: underline;
 }
-
-
-/* ---------- Hlavička a pätička ---------- */
 
 .navbar-brand {
     font-size: 1.25rem;
@@ -124,7 +104,6 @@ a:hover {
     color: var(--text);
 }
 
-/* Položky menu a záložiek sú odkazy, podčiarknutie pri hover sem nepatrí */
 .nav-link:hover {
     text-decoration: none;
 }
@@ -133,22 +112,17 @@ footer {
     color: var(--text-muted);
 }
 
-
-/* ---------- Karty ---------- */
-
 .card {
     --bs-card-bg: var(--surface);
     --bs-card-border-color: var(--border);
     border-radius: 14px;
 }
 
-/* Užšia karta, používa sa pri zadávaní identifikátora */
 .card-narrow {
     width: 100%;
     max-width: 520px;
 }
 
-/* Dokončená úloha: stlmená a s prečiarknutým názvom */
 .todo-done {
     opacity: 0.55;
 }
@@ -157,13 +131,9 @@ footer {
     text-decoration: line-through;
 }
 
-/* Úloha po termíne: červený pruh vľavo */
 .todo-overdue {
     border-left: 4px solid var(--overdue);
 }
-
-
-/* ---------- Tlačidlá ---------- */
 
 .btn {
     border-radius: 10px;
@@ -186,7 +156,6 @@ footer {
     --bs-btn-disabled-border-color: var(--accent);
 }
 
-/* Tmavé priesvitné pozadie, aby tlačidlo ostalo čitateľné aj na svetlom gradiente */
 .btn-outline-secondary {
     --bs-btn-color: var(--text);
     --bs-btn-bg: var(--overlay);
@@ -203,7 +172,6 @@ footer {
     --bs-btn-bg: var(--overlay);
 }
 
-/* Tlačidlo Zrušiť v oknách: tmavé, nie svetlosivé ako má Bootstrap */
 .btn-secondary {
     --bs-btn-bg: var(--surface-2);
     --bs-btn-border-color: var(--border);
@@ -213,7 +181,6 @@ footer {
     --bs-btn-hover-color: var(--text);
 }
 
-/* Odznak stavu úlohy v detaile */
 .badge-open {
     background-color: var(--accent);
     color: var(--on-accent);
@@ -223,9 +190,6 @@ footer {
     background-color: var(--border);
     color: var(--text);
 }
-
-
-/* ---------- Formulárové prvky ---------- */
 
 .form-control,
 .form-select {
@@ -247,7 +211,6 @@ footer {
     color: var(--text-muted);
 }
 
-/* Zaškrtávacie políčko v akcentovej farbe */
 .form-check-input {
     background-color: var(--surface-2);
     border-color: var(--border);
@@ -263,9 +226,6 @@ footer {
     box-shadow: 0 0 0 0.2rem var(--accent-soft);
 }
 
-
-/* ---------- Záložky Zoznam / Kalendár ---------- */
-
 .nav-pills .nav-link {
     color: var(--text-muted);
     border-radius: 10px;
@@ -280,9 +240,6 @@ footer {
     background-color: var(--accent-active);
     color: var(--text);
 }
-
-
-/* ---------- Modálne okná ---------- */
 
 .modal-content {
     background-color: var(--surface);
@@ -300,9 +257,6 @@ footer {
     opacity: 0.6;
 }
 
-
-/* ---------- Hlášky ---------- */
-
 .alert {
     border-radius: 12px;
 }
@@ -317,11 +271,8 @@ footer {
     color: var(--accent);
 }
 
-
-/* ---------- Kalendár (FullCalendar) ---------- */
-
 #calendar {
-    --fc-border-color: var(--border); 
+    --fc-border-color: var(--border);
     --fc-page-bg-color: transparent;
     --fc-neutral-bg-color: var(--surface-2);
     --fc-today-bg-color: var(--accent-soft);
@@ -333,7 +284,6 @@ footer {
     padding: 16px;
 }
 
-/* Tlačidlá kalendára zladené s tlačidlami stránky */
 #calendar .fc-button-primary {
     background-color: var(--surface-2);
     border-color: var(--border);
@@ -372,19 +322,16 @@ footer {
     font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
-    /* Hrubší rámček, lebo farbu úlohy nesie práve on */
+
     border-width: 2px;
 }
 
-/* Pozadie je len jemný odtieň, takže text musí byť svetlý.
-   Musí to byť tu, inak to prebije pravidlo pre odkazy na začiatku súboru. */
 #calendar .fc-event,
 #calendar .fc-event .fc-event-title,
 #calendar .fc-event .fc-event-time {
     color: var(--text);
 }
 
-/* Dokončená úloha: stlmený prečiarknutý text */
 #calendar .fc-event-done,
 #calendar .fc-event-done .fc-event-title,
 #calendar .fc-event-done .fc-event-time {
@@ -396,11 +343,6 @@ footer {
     opacity: 0.8;
 }
 
-
-/* ---------- Tablety a menšie displeje ---------- */
-
-/* 768 px je hranica, na ktorej sa skladá aj menu v hlavičke (navbar-expand-md).
-   Nadpis kalendára sa pod ňou nezmestí vedľa tlačidiel, preto ide pod ne. */
 @media (max-width: 767.98px) {
     #calendar .fc-toolbar {
         flex-direction: column;
@@ -408,15 +350,11 @@ footer {
     }
 }
 
-
-/* ---------- Telefóny ---------- */
-
 @media (max-width: 575px) {
     h1, .navbar-brand {
         font-size: 1.1rem;
     }
 
-    /* Karta úlohy: políčko a text ostanú v riadku, tlačidlá sa presunú pod ne */
     .card-body.d-flex {
         flex-wrap: wrap;
     }

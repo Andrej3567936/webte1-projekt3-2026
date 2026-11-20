@@ -1,15 +1,7 @@
-<!--
-  Stránka O projekte, adresa /#/o-projekte.
-  Zadanie chce sekciu, ktorá stručne predstaví aplikáciu, použité technológie
-  a knižnicu kalendára. Rozloženie je rovnaké ako v zadaní 2: nadpis,
-  prepínač sekcií a pod ním karty.
--->
-
 <script setup>
-// Odkazy na sekcie nemôžu byť <a href="#zdroj"> ako v zadaní 2.
-// Router pracuje s adresami cez mriežku (/#/o-projekte), takže by si
-// takýto odkaz vysvetlil ako novú adresu a skončil by na stránke 404.
-// Preto posunieme stránku sami.
+
+// Router pracuje s adresami cez mriezku, takze <a href="#sekcia"> by
+// skoncilo na stranke 404. Preto posuvame stranku sami.
 function scrollTo(id) {
   document.getElementById(id).scrollIntoView({ behavior: "smooth" });
 }
@@ -94,6 +86,5 @@ function scrollTo(id) {
       </ul>
     </div>
   </section>
-
 
 </template>

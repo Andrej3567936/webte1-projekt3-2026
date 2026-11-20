@@ -1,14 +1,5 @@
-<!--
-  Potvrdzovacie okno. Používa sa dvakrát: pri mazaní úlohy a pri obnovení
-  ukážkových úloh, preto je to samostatný komponent a nie dvakrát
-  prekopírovaný kus HTML.
-
-  Props a emit sú z cvičenia 9 (krok 4 a 5). Navyše je tu <slot>: text
-  otázky doň vloží rodič, keď komponent použije.
--->
 <script setup>
-// Opakovane použiteľné potvrdzovacie okno.
-// Používa sa pri mazaní úlohy aj pri obnovení ukážkových dát.
+
 defineProps({
   title: { type: String, required: true },
   confirmText: { type: String, default: "Potvrdiť" },
@@ -29,7 +20,7 @@ defineEmits(["confirm", "cancel"]);
         </div>
 
         <div class="modal-body">
-          <!-- Text otázky vloží rodič medzi značky komponentu -->
+
           <slot></slot>
         </div>
 

@@ -1,13 +1,8 @@
-/*
-  Pomocná funkcia na text. Vo cvičeniach nebola, potrebujem ju na hľadanie
-  v zozname úloh.
-*/
-// Zjednotí text na porovnávanie: malé písmená a bez diakritiky.
-// Vďaka tomu "nakup" nájde aj "Nakúpiť".
+// Male pismena a bez diakritiky, aby "nakup" naslo aj "Nakupit"
 export function normalizeText(text) {
   return text
     .trim()
     .toLowerCase()
-    .normalize("NFD")                 // rozloží písmeno na znak + dĺžeň/mäkčeň
-    .replace(/[\u0300-\u036f]/g, ""); // a tie značky zahodí
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }

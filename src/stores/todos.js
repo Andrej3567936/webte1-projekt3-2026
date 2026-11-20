@@ -1,17 +1,4 @@
-/*
-  Store (Pinia) - spoločný stav úloh.
-  Prevzaté z cvičenia 10b, krok 3 (stores/favorites.js). Zapisuje sa
-  rovnako ako <script setup>: ref je stav, computed odvodená hodnota,
-  obyčajné funkcie sú akcie a všetko, čo má byť zvonka vidieť, treba
-  vrátiť v return.
-
-  Prečo store a nie obyčajné ref v App.vue: zoznam a kalendár sú dve
-  stránky, ktoré nikdy nie sú na obrazovke naraz, a props/emit fungujú
-  len medzi rodičom a dieťaťom (presne tento problém rieši cv. 10b, krok 3).
-
-  localStorage je z cvičenia 10b, krok 4, ale ukladám doň iba identifikátor
-  používateľa. Úlohy samotné musia byť podľa zadania na serveri.
-*/
+// Spolocny stav uloh (Pinia, cv. 10b). Zoznam aj kalendar citaju odtialto.
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import {
@@ -25,33 +12,25 @@ import {
 } from "../services/todoApi.js";
 import { toApiDate, toInputValue } from "../utils/dates.js";
 
-// Do localStorage ukladáme iba identifikátor, aby ho používateľ nemusel
-// písať pri každom otvorení. Samotné úlohy žijú výhradne na serveri.
 const STORAGE_KEY = "todo-name";
 
 export const useTodosStore = defineStore("todos", () => {
-  // ---------- stav ----------
-
   const userName = ref(localStorage.getItem(STORAGE_KEY) ?? "");
   const todos = ref([]);
 
-  const loaded = ref(false);   // sú úlohy načítané?
-  const loading = ref(false);  // prebieha práve požiadavka na server?
-  const saving = ref(false);   // prebieha ukladanie alebo mazanie?
-  const busyId = ref(null);    // id úlohy, na ktorej práve beží operácia
+  const loaded = ref(false);
+  const loading = ref(false);
+  const saving = ref(false);
+  const busyId = ref(null);
 
-  const error = ref("");       // chybová hláška
-  const message = ref("");     // hláška o úspechu, sama zmizne
+  const error = ref("");
+  const message = ref("");
 
-  // Okná (formulár, detail, potvrdenia) sú v App.vue, aby boli dostupné
-  // zo zoznamu aj z kalendára. Preto je tu aj informácia, ktoré je otvorené.
-  const formTodo = ref(null);     // úloha v upravovanom formulári, null = zavretý
-  const formError = ref("");      // chyba z ukladania, zobrazí sa v okne formulára
-  const detailTodo = ref(null);   // úloha zobrazená v detaile
-  const todoToDelete = ref(null); // úloha, ktorej zmazanie sa potvrdzuje
+  const formTodo = ref(null);
+  const formError = ref("");
+  const detailTodo = ref(null);
+  const todoToDelete = ref(null);
   const confirmReset = ref(false);
-
-  // ---------- hlášky ----------
 
   let messageTimer = null;
 
@@ -62,8 +41,6 @@ export const useTodosStore = defineStore("todos", () => {
       message.value = "";
     }, 3000);
   }
-
-  // ---------- načítanie ----------
 
   async function load() {
     if (userName.value.trim() === "") {
@@ -91,9 +68,6 @@ export const useTodosStore = defineStore("todos", () => {
     error.value = "";
   }
 
-  // ---------- zmeny úloh ----------
-
-  // Hodnoty z formulára prevedie na tvar, ktorý čaká server
   function toApiTodo(form) {
     return {
       title: form.title.trim(),
@@ -104,8 +78,6 @@ export const useTodosStore = defineStore("todos", () => {
     };
   }
 
-  // Vytvorenie aj úprava, podľa toho či má úloha id.
-  // Pri neúspechu vyhodí chybu, aby App.vue vedel nechať okno otvorené.
   async function save(form, id) {
     saving.value = true;
 
@@ -116,7 +88,6 @@ export const useTodosStore = defineStore("todos", () => {
         await updateTodo(userName.value, id, toApiTodo(form));
       }
 
-      // Zoznam obnovíme až po úspešnej odpovedi servera
       todos.value = await getTodos(userName.value);
       showMessage(id === null ? "Úloha je vytvorená." : "Úloha je upravená.");
     } catch (e) {
@@ -141,7 +112,6 @@ export const useTodosStore = defineStore("todos", () => {
     }
   }
 
-  // Event je nepovinný: z detailu sa volá bez neho
   async function toggleDone(todo, event) {
     busyId.value = todo.id;
     error.value = "";
@@ -152,12 +122,14 @@ export const useTodosStore = defineStore("todos", () => {
       } else {
         await setDone(userName.value, todo.id);
       }
-      // Stav meníme až po úspešnej odpovedi servera
+
+      // Stav menime az po uspesnej odpovedi servera
       todo.is_finished = !todo.is_finished;
       showMessage(todo.is_finished ? "Úloha je dokončená." : "Úloha je znova otvorená.");
     } catch (e) {
       error.value = "Stav úlohy sa nepodarilo zmeniť. " + e.message;
-      // Na serveri sa nič nezmenilo, vrátime políčko do pôvodného stavu
+
+      // Na serveri sa nic nezmenilo, vratime policko spat
       if (event) {
         event.target.checked = todo.is_finished;
       }
@@ -181,9 +153,6 @@ export const useTodosStore = defineStore("todos", () => {
     }
   }
 
-  // ---------- otváranie okien ----------
-
-  // Prázdny formulár. Dátumy sa dajú predvyplniť z výberu v kalendári.
   function openNewForm(dateFrom = "", dateTo = "") {
     formError.value = "";
     formTodo.value = {
@@ -196,7 +165,6 @@ export const useTodosStore = defineStore("todos", () => {
     };
   }
 
-  // Ten istý formulár, ale predvyplnený údajmi existujúcej úlohy
   function openEditForm(todo) {
     formError.value = "";
     detailTodo.value = null;
@@ -215,7 +183,6 @@ export const useTodosStore = defineStore("todos", () => {
     todoToDelete.value = todo;
   }
 
-  // Von ide len to, čo komponenty naozaj potrebujú
   return {
     userName, todos, loaded, loading, saving, busyId, error, message,
     formTodo, formError, detailTodo, todoToDelete, confirmReset,

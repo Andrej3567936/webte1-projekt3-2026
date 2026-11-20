@@ -1,21 +1,7 @@
-<!--
-  Formulár na novú aj na upravovanú úlohu - je to jeden a ten istý
-  komponent, líši sa len tým, či dostane id.
-
-  Z cvičenia 9, krok 3: v-model na poliach formulára.
-  Z cvičenia 9, krok 6 (bonus): @submit.prevent, aby prehliadač stránku
-  neodoslal a neobnovil.
-  Z cvičenia 9, krok 4 a 5: props dnu, emit von.
-
-  Pracuje s kópiou údajov ({ ...props.initial }), aby tlačidlo Zrušiť
-  naozaj nič nezmenilo.
--->
 <script setup>
 import { ref } from "vue";
 
 const props = defineProps({
-  // Počiatočné hodnoty. id je null pri novej úlohe, dátumy sú už vo formáte
-  // pre <input type="datetime-local">.
   initial: { type: Object, required: true },
   saving: { type: Boolean, default: false },
   errorText: { type: String, default: "" },
@@ -23,13 +9,11 @@ const props = defineProps({
 
 const emit = defineEmits(["save", "cancel"]);
 
-// Pracujeme s kópiou, aby zrušenie nezmenilo pôvodné údaje
+// Pracujeme s kopiou, aby tlacidlo Zrusit nic nezmenilo
 const form = ref({ ...props.initial });
 
-// Chyby pri jednotlivých poliach, napríklad { title: "Názov je povinný." }
 const errors = ref({});
 
-// Skontroluje polia, vráti true ak je všetko v poriadku
 function validate() {
   const found = {};
 
@@ -51,7 +35,6 @@ function validate() {
     found.date_to = "Zadaj koniec úlohy.";
   }
 
-  // Hodnota z datetime-local má vždy rovnaký tvar, preto stačí porovnať texty
   if (form.value.date_from !== "" && form.value.date_to !== "" && form.value.date_from > form.value.date_to) {
     found.date_to = "Koniec nesmie byť skôr ako začiatok.";
   }
@@ -78,7 +61,6 @@ function submit() {
           <button type="button" class="btn-close" @click="$emit('cancel')"></button>
         </div>
 
-        <!-- .prevent zabráni tomu, aby prehliadač odoslal formulár a obnovil stránku -->
         <form @submit.prevent="submit">
           <div class="modal-body">
             <div class="mb-3">

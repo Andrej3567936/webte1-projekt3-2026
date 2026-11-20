@@ -1,29 +1,18 @@
-<!--
-  Jedna úloha v zozname.
-  Prevzaté z cvičenia 9, krok 4 a 5 (komponent pre jedno jedlo): údaje
-  dostáva zhora cez props, kliknutia hlási späť rodičovi cez emit.
-  Sám nemení nič - o tom, čo sa naozaj stane, rozhoduje rodič.
-
-  Zaškrtávacie políčko má schválne :checked a @change, nie v-model.
-  Pri v-model by sa fajka prekreslila hneď po kliknutí, aj keby server
-  zmenu odmietol. Takto sa mení až potom, čo server odpovie.
--->
 <script setup>
 import { formatDate, isOverdue } from "../utils/dates.js";
 
-// Údaje dostávame zvonka cez props
 defineProps({
   todo: { type: Object, required: true },
   busyId: { type: Number, default: null },
 });
 
-// Kliknutia iba hlásime rodičovi, sami nič nemeníme
 defineEmits(["toggle", "edit", "delete"]);
 </script>
 
 <template>
   <div class="card mb-3" :class="{ 'todo-done': todo.is_finished, 'todo-overdue': isOverdue(todo) }">
     <div class="card-body d-flex gap-3 align-items-start">
+      <!-- :checked a @change, nie v-model: fajka sa zmeni az po odpovedi servera -->
       <input
         class="form-check-input mt-1 flex-shrink-0"
         type="checkbox"

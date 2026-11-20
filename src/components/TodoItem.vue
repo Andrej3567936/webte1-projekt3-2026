@@ -12,7 +12,6 @@ defineEmits(["toggle", "edit", "delete"]);
 <template>
   <div class="card mb-3" :class="{ 'todo-done': todo.is_finished, 'todo-overdue': isOverdue(todo) }">
     <div class="card-body d-flex gap-3 align-items-start">
-      <!-- :checked a @change, nie v-model: fajka sa zmeni az po odpovedi servera -->
       <input
         class="form-check-input mt-1 flex-shrink-0"
         type="checkbox"

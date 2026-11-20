@@ -9,7 +9,6 @@ const calendarEl = ref(null);
 
 let calendar = null;
 
-// Farba ramceka a k nej jemne pozadie, striedaju sa podla id
 const EVENT_COLORS = [
   { border: "#EA6113", background: "rgba(234, 97, 19, 0.18)" },
   { border: "#F88F22", background: "rgba(248, 143, 34, 0.18)" },
@@ -90,7 +89,6 @@ onUnmounted(() => {
   }
 });
 
-// deep: true preto, ze sa meni aj obsah ulohy, nielen cele pole (cv. 10b)
 watch(() => store.todos, () => nextTick(renderCalendar), { deep: true });
 </script>
 

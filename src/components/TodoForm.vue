@@ -9,7 +9,6 @@ const props = defineProps({
 
 const emit = defineEmits(["save", "cancel"]);
 
-// Pracujeme s kopiou, aby tlacidlo Zrusit nic nezmenilo
 const form = ref({ ...props.initial });
 
 const errors = ref({});

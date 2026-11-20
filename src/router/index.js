@@ -5,8 +5,6 @@ import AboutView from "../views/AboutView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
 
 const router = createRouter({
-  // Adresy s mriezkou. Skolsky server nevie pri F5 vratit index.html,
-  // takze createWebHistory by tam hadzalo 404 (cv. 10b).
   history: createWebHashHistory(),
   routes: [
     { path: "/", name: "list", component: ListView },

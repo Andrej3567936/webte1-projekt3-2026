@@ -1,7 +1,5 @@
 <script setup>
 
-// Router pracuje s adresami cez mriezku, takze <a href="#sekcia"> by
-// skoncilo na stranke 404. Preto posuvame stranku sami.
 function scrollTo(id) {
   document.getElementById(id).scrollIntoView({ behavior: "smooth" });
 }

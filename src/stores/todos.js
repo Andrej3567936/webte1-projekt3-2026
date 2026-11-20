@@ -1,4 +1,3 @@
-// Spolocny stav uloh (Pinia, cv. 10b). Zoznam aj kalendar citaju odtialto.
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import {
@@ -123,13 +122,11 @@ export const useTodosStore = defineStore("todos", () => {
         await setDone(userName.value, todo.id);
       }
 
-      // Stav menime az po uspesnej odpovedi servera
       todo.is_finished = !todo.is_finished;
       showMessage(todo.is_finished ? "Úloha je dokončená." : "Úloha je znova otvorená.");
     } catch (e) {
       error.value = "Stav úlohy sa nepodarilo zmeniť. " + e.message;
 
-      // Na serveri sa nic nezmenilo, vratime policko spat
       if (event) {
         event.target.checked = todo.is_finished;
       }

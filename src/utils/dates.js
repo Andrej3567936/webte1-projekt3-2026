@@ -1,4 +1,3 @@
-// Prevody medzi ISO 8601 zo servera a tvarom pre datetime-local
 export function formatDate(isoString) {
   return new Date(isoString).toLocaleString("sk-SK", {
     day: "numeric",

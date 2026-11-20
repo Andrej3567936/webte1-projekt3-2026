@@ -1,4 +1,3 @@
-// Vsetky volania servera na jednom mieste (cv. 10a)
 const API_URL = "https://wt1zadanie.iolab.sk/api";
 
 async function errorDetail(response) {
@@ -21,12 +20,10 @@ async function errorDetail(response) {
 async function request(path, options) {
   const response = await fetch(API_URL + path, options);
 
-  // fetch pri stave 403 ani 500 chybu sam nevyhodi, musime to spravit my
   if (!response.ok) {
     throw new Error(`Server vrátil chybu ${response.status}${await errorDetail(response)}`);
   }
 
-  // DELETE vracia prazdne telo, to sa na JSON previest neda
   if (response.status === 204) {
     return null;
   }
@@ -39,7 +36,6 @@ function userPath(name) {
 }
 
 export async function getTodos(name) {
-  // Server vracia objekt so studentom, ulohy su az v kluci todos
   const data = await request(userPath(name));
   return data.todos;
 }

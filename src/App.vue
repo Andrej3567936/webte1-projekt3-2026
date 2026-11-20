@@ -9,7 +9,6 @@ import ConfirmDialog from "./components/ConfirmDialog.vue";
 const store = useTodosStore();
 const route = useRoute();
 
-// Hamburger menu. V Z2 to robil Bootstrap cez data-bs-toggle.
 const menuOpen = ref(false);
 
 const isTodoPage = computed(() => route.name === "list" || route.name === "calendar");
@@ -42,7 +41,7 @@ async function confirmReset() {
   <header>
     <nav class="navbar navbar-expand-md py-3">
       <div class="container">
-        <RouterLink class="navbar-brand" to="/">TODO List</RouterLink>
+        <RouterLink class="navbar-brand" to="/">Môj TODO List</RouterLink>
 
         <button class="navbar-toggler" type="button" @click="menuOpen = !menuOpen">
           <span class="navbar-toggler-icon"></span>
@@ -138,7 +137,6 @@ async function confirmReset() {
       <div v-if="store.error" class="alert alert-danger">{{ store.error }}</div>
     </template>
 
-    <!-- Sem router vlozi stranku podla adresy -->
     <RouterView v-if="!store.loading" />
   </main>
 
@@ -156,7 +154,6 @@ async function confirmReset() {
     </div>
   </footer>
 
-  <!-- Okna su tu, aby sa dali otvorit zo zoznamu aj z kalendara -->
   <TodoForm
     v-if="store.formTodo"
     :initial="store.formTodo"

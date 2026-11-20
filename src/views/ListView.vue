@@ -10,7 +10,6 @@ const searchText = ref("");
 const filterStatus = ref("all");
 const sortBy = ref("date_from");
 
-// computed sa prepocita sam pri zmene filtra, hladania alebo uloh (cv. 9)
 const visibleTodos = computed(() => {
   let result = store.todos;
 
